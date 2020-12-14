@@ -9,6 +9,6 @@ public class Picture extends MediaAdapter{
 
     public void display() {
 
-        System.out.println(this.getClass().getCanonicalName() + ": Display Picture");
+        System.out.println("class " + this.getClass().getCanonicalName() + ": Display Picture");
     }
 }

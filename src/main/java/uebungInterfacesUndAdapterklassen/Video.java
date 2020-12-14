@@ -8,14 +8,14 @@ public class Video extends MediaAdapter {
     }
 
     public void play() {
-        System.out.println(this.getClass().getCanonicalName() + ": Play Video");
+        System.out.println("class " + this.getClass().getCanonicalName() + ": Play Video");
     }
 
     public void stop() {
-        System.out.println(this.getClass().getCanonicalName() + ": Video stopped");
+        System.out.println("class " + this.getClass().getCanonicalName() + ": Video stopped");
     }
 
     public void display() {
-        System.out.println(this.getClass().getCanonicalName() + ": Display Video");
+        System.out.println("class " + this.getClass().getCanonicalName() + ": Display Video");
     }
 }
