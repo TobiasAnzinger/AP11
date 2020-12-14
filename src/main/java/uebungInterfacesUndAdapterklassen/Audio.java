@@ -8,11 +8,11 @@ public class Audio extends MediaAdapter{
     }
 
     public void play() {
-        System.out.println(this.getClass().getCanonicalName() + ": play Audio");
+        System.out.println(this.getClass().getCanonicalName() + ": Play Audio");
     }
 
     public void stop() {
-        System.out.println(this.getClass().getCanonicalName() + "Audio stopped");
+        System.out.println(this.getClass().getCanonicalName() + ": Audio stopped");
     }
 
 }
