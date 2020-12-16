@@ -1,19 +1,39 @@
 package aufgabeBankkonten;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public abstract class Konto {
 
-    private String kunde;
-    private int kontonummer;
-    private double saldo;
-    private double habenszins;
+    @Setter
+    @Getter
+    private Kunde kunde;
 
-    public Konto(String kunde, int kontonummer) {
+    @Setter
+    @Getter
+    private int kontonummer;
+
+    @Setter
+    @Getter
+    private double saldo;
+
+    @Getter
+    private double zinssatzHaben;
+
+    public boolean setZinssatzHaben(double zinssatzHaben) {
+        this.zinssatzHaben = zinssatzHaben;
+        return true;
+    }
+
+    public Konto(Kunde kunde, int kontonummer) {
         this.kunde = kunde;
         this.kontonummer = kontonummer;
     }
 
 
-    abstract double einzahlen();
+    abstract boolean einzahlen();
 
-    abstract double abheben();
+    abstract boolean abheben();
+
+
 }

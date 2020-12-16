@@ -1,19 +1,31 @@
 package aufgabeBankkonten;
 
 
+
+
 public class TagesgeldKonto extends Konto {
 
+    private int zinsintervall;
 
-    public TagesgeldKonto(String kunde, int kontonummer) {
+    public int getZinsintervall() {
+        return zinsintervall;
+    }
+
+    public boolean setZinsintervall(int zinsintervall) {
+        this.zinsintervall = zinsintervall;
+        return true;
+    }
+
+    public TagesgeldKonto(Kunde kunde, int kontonummer) {
         super(kunde, kontonummer);
     }
 
-    double einzahlen() {
-        return 0;
+    boolean einzahlen() {
+        return false;
     }
 
-    double abheben() {
-        return 0;
+    boolean abheben() {
+        return false;
     }
 
 }
