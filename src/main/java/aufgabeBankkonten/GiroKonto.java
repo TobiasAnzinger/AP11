@@ -2,7 +2,6 @@ package aufgabeBankkonten;
 
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class GiroKonto extends Konto {
 
