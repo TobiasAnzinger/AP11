@@ -31,9 +31,9 @@ public abstract class Konto {
     }
 
 
-    abstract boolean einzahlen();
+    abstract boolean einzahlen(double amount);
 
-    abstract boolean abheben();
+    abstract boolean abheben(double amount);
 
 
 }

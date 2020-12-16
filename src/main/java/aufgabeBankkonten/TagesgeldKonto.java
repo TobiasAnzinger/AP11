@@ -1,8 +1,6 @@
 package aufgabeBankkonten;
 
 
-
-
 public class TagesgeldKonto extends Konto {
 
     private int zinsintervall;
@@ -20,12 +18,19 @@ public class TagesgeldKonto extends Konto {
         super(kunde, kontonummer);
     }
 
-    boolean einzahlen() {
+    boolean einzahlen(double amount) {
+        if (amount > 0) {
+            setSaldo(getSaldo() + amount);
+            return true;
+        }
         return false;
     }
 
-    boolean abheben() {
+    boolean abheben(double amount) {
+        if (amount > 0 && amount < getSaldo()) {
+            setSaldo(getSaldo() - amount);
+            return true;
+        }
         return false;
     }
-
 }

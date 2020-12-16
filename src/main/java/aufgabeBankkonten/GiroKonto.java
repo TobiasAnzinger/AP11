@@ -4,9 +4,7 @@ package aufgabeBankkonten;
 import lombok.Getter;
 import lombok.Setter;
 
-public class GiroKonto extends Konto{
-
-
+public class GiroKonto extends Konto {
 
 
     @Getter
@@ -26,17 +24,24 @@ public class GiroKonto extends Konto{
     }
 
 
-
     public GiroKonto(Kunde kunde, int kontonummer) {
         super(kunde, kontonummer);
     }
 
 
-    boolean einzahlen() {
+    boolean einzahlen(double amount) {
+        if (amount > 0){
+            setSaldo(getSaldo() + amount);
+            return true;
+        }
         return false;
     }
 
-    boolean abheben() {
+    boolean abheben(double amount) {
+        if (amount > 0 && amount < getSaldo() + dispokredit ){
+            setSaldo(getSaldo() - amount);
+            return true;
+        }
         return false;
     }
 }
