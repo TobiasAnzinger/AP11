@@ -6,8 +6,8 @@ public class Main {
 
 
 //        Object[] or = {new Integer(1), "hallo"};
-//        Integer[] or = {1, 2 ,5, 4, 7 ,0};
-        String[] or = { "d", "b", "k", "a"};
+        Integer[] or = {1, 2 ,5, 4, 7 ,0};
+//        String[] or = { "d", "b", "k", "a"};
 
         Minimum minimum = new Minimum(or);
 

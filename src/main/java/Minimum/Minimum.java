@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public class Minimum<T> {
 
-    private Object[] array;
+    private final T[] array;
 
-    public Minimum(Object[] array) {
+    public Minimum(T[] array) {
         this.array = array;
     }
 
-    public Object getMinimum(){
+    public T getMinimum(){
         Arrays.sort(array);
         return array[0];
     }
