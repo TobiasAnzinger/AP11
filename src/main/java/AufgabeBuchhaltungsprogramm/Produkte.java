@@ -1,6 +1,8 @@
 package AufgabeBuchhaltungsprogramm;
 
-public abstract class Produkte {
+import java.util.ArrayList;
+
+public class Produkte {
 
     protected String beschreibung;
 
@@ -13,4 +15,6 @@ public abstract class Produkte {
     public double getPreis() {
         return preis;
     }
+
+
 }

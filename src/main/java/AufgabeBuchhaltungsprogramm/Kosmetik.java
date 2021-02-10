@@ -8,6 +8,10 @@ public class Kosmetik extends Produkte implements Steuer{
         return inhaltsstoff;
     }
 
+    public Kosmetik(String inhaltsstoff) {
+        this.inhaltsstoff = inhaltsstoff;
+    }
+
     @Override
     public String getBeschreibung() {
         return super.getBeschreibung();
