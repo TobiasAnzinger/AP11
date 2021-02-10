@@ -8,4 +8,18 @@ public class Lebensmittel extends Produkte implements SteuerVermindert {
         return kalorienAngabe;
     }
 
+    @Override
+    public String getBeschreibung() {
+        return super.getBeschreibung();
+    }
+
+    @Override
+    public double getPreis() {
+        return super.getPreis();
+    }
+
+    @Override
+    public double berechneSteuerVermindert() {
+        return getPreis() * STEUERSATZ * 100;
+    }
 }
