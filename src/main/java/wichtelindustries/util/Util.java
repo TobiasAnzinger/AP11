@@ -20,9 +20,13 @@ public class Util {
 	}
 
 	public static int getZufallszahl(int max){
-
+		try {
+			return (int) (Math.random() * (max - 1)) + 1;
+		} catch (Exception e){
+			e.printStackTrace();
+			System.out.println("invalid input");
+		}
 		return 0;
 	}
-
 
 }

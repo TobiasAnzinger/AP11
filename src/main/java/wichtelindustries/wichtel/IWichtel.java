@@ -1,7 +1,7 @@
 package wichtelindustries.wichtel;
 
 
-import geschenk.IGeschenk;
+import wichtelindustries.geschenk.IGeschenk;
 
 public interface IWichtel {
 
