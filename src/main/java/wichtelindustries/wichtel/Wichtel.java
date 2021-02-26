@@ -3,10 +3,9 @@ package wichtelindustries.wichtel;
 import java.util.Random;
 
 public abstract class Wichtel implements IWichtel{
-	
-	private final static Random RAND = new Random();
-	
-	
+
+	protected int dauer;
+
 	/**
 	 * Gibt einen zufaelligen Vornamen zurueck, der bei Wichteln beliebt ist.
 	 * 
@@ -24,4 +23,8 @@ public abstract class Wichtel implements IWichtel{
 		return builder.toString();
 	}
 
+	@Override
+	public String toString() {
+		return "Wichtel{}";
+	}
 }

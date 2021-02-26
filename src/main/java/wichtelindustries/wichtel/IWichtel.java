@@ -5,6 +5,8 @@ import wichtelindustries.geschenk.IGeschenk;
 
 public interface IWichtel {
 
+
+
 	public String toString();
 
 	public boolean arbeiteNoch();
