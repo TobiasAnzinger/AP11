@@ -4,6 +4,7 @@ import java.util.Random;
 
 public abstract class Wichtel implements IWichtel{
 
+	private final static Random RAND = new Random();
 	protected int dauer;
 
 	/**
