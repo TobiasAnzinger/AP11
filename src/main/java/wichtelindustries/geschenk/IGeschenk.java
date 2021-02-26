@@ -1,8 +1,13 @@
 package wichtelindustries.geschenk;
 
 
+import java.util.List;
 
 public interface IGeschenk {
+
+	static List<IGeschenk> generiereGeschenke(int anzahlGeschenke) {
+		return null;
+	}
 
 	public String getName();
 
