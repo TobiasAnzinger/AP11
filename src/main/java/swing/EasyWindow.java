@@ -40,7 +40,6 @@ public class EasyWindow extends JFrame {
         });
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         final Container con = getContentPane();
-
         con.setLayout(new BorderLayout());
 
 
@@ -102,7 +101,7 @@ public class EasyWindow extends JFrame {
 //            int x = getLocation().x;
 //            int y = getLocation().y;
 //            setLocation(x + (int) (Math.random() * 50), y + (int) (Math.random() * 50));
-        Main.main(null);
+//        Main.main(null);
     }
 
     public void moveWindow(EasyWindow ew, MV mv) throws InterruptedException {
