@@ -1,4 +1,4 @@
-package swing;
+package swingDisplay;
 
 
 import javax.imageio.ImageIO;
@@ -29,7 +29,6 @@ public class ImageImporter {
         System.out.println(BASE_PATH + i + FILE_ENDING);
         File file = new File(BASE_PATH + i + FILE_ENDING);
         return ImageIO.read(file);
-
     }
 
     private boolean isBlack(int rgb) {
