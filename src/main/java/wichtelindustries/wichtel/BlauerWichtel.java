@@ -15,6 +15,16 @@ public class BlauerWichtel extends Wichtel{
     }
 
     @Override
+    public int compareTo(IWichtel o) {
+        return 0;
+    }
+
+    @Override
+    public double effizienz() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return String.format("%s %s", WichtelType.BLAUER_WICHTEL.toString(), super.toString());
     }
