@@ -1,19 +1,46 @@
 package swingDisplay;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Pixel[][] image = new Pixel[20][20];
-
-        Pixel pixel1 = new Pixel(new DPSettings(20,20), new Pos(0,0), true);
-        System.out.println(pixel1.toString());
+        ImageImporter im = new ImageImporter();
 
 
-        for (int i = 0; i < 20; i++) {
+        try {
+            boolean[][] image = im.getNumberArray(-1);
 
+
+        DPSettings dpSettings = new DPSettings(image.length, image[0].length);
+
+        Pixel[][] display = new Pixel[dpSettings.pixel_x][dpSettings.pixel_y];
+
+//        System.out.println(pixel1.toString());
+
+//        display[0][0] = new Pixel(new DPSettings(20,20), new Pos(0,0), true);
+
+//        int k = 0;
+//        for (int i = 0; i < display.length; i++) {
+//            for (int j = 0; j < display[0].length; j++) {
+//                display[i][j] = new Pixel(dpSettings, new Pos(i,j), k % 2 == 0);
+//                k++;
+//            }
+//            k++;
+//
+//        }
+
+        for (int i = 0; i < display.length; i++) {
+            for (int j = 0; j < display[0].length; j++) {
+                display[i][j] = new Pixel(dpSettings, new Pos(i,j), image[i][j]);
+            }
+
+        }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
