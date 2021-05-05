@@ -1,6 +1,8 @@
 package swingDisplay;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.List;
 import java.io.IOException;
 
 public class Main {
@@ -11,10 +13,10 @@ public class Main {
 
 
         try {
-            boolean[][] image = im.getNumberArray(-1);
+            List<List<Boolean>> image = im.getNumberArray(11);
 
 
-        DPSettings dpSettings = new DPSettings(image.length, image[0].length);
+        DPSettings dpSettings = new DPSettings(image.size(), image.get(0).size());
 
         Pixel[][] display = new Pixel[dpSettings.pixel_x][dpSettings.pixel_y];
 
@@ -34,7 +36,7 @@ public class Main {
 
         for (int i = 0; i < display.length; i++) {
             for (int j = 0; j < display[0].length; j++) {
-                display[i][j] = new Pixel(dpSettings, new Pos(i,j), image[i][j]);
+                display[i][j] = new Pixel(dpSettings, new Pos(i,j), image.get(i).get(j));
             }
 
         }
