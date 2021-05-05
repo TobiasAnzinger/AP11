@@ -7,8 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ImageImporter {
@@ -16,18 +14,17 @@ public class ImageImporter {
     private static final String FILE_ENDING = ".png";
     private static final String BASE_PATH = "Numbers/";
 
-    public List<List<Boolean>> getNumberArray(int number) throws IOException {
+    public List<List<Boolean>> getNumberArray(String value) throws IOException {
 
-        if(number > 9){
-            String numberStr = Integer.toString(number);
+        if(value.length() > 1){
             List<List<List<Boolean>>> list = new ArrayList<List<List<Boolean>>>();
-            for (int j = 0; j < numberStr.length(); j++) {
-                list.add(getPixelArrayForSingleNumber(Character.getNumericValue(numberStr.charAt(j))));
+            for (int j = 0; j < value.length(); j++) {
+                list.add(getPixelArrayForSingleChar(value.charAt(j)));
             }
             return combineNumberArrays(list);
         }
         else{
-            return getPixelArrayForSingleNumber(number);
+            return getPixelArrayForSingleChar(value.charAt(0));
         }
     }
 
@@ -39,8 +36,8 @@ public class ImageImporter {
         return out;
     }
 
-    private List<List<Boolean>> getPixelArrayForSingleNumber(int number) throws IOException {
-        BufferedImage image = findImageByInt(number);
+    private List<List<Boolean>> getPixelArrayForSingleChar(char value) throws IOException {
+        BufferedImage image = findImageByChar(value);
         List<List<Boolean>> pixels = new ArrayList<>();
         for (int x = 0; x < image.getWidth(); x++) {
             pixels.add(new ArrayList<>());
@@ -51,9 +48,15 @@ public class ImageImporter {
         return pixels;
     }
 
-    private BufferedImage findImageByInt(int i) throws IOException {
-        System.out.println(BASE_PATH + i + FILE_ENDING);
-        File file = new File(BASE_PATH + i + FILE_ENDING);
+    private BufferedImage findImageByChar(char value) throws IOException {
+        value = Character.toUpperCase(value);
+        String fileName = "";
+        if (value == ' ') {
+            fileName = "SPACE";
+        }else{
+            fileName = Character.toString(value);
+        }
+        File file = new File(BASE_PATH + fileName + FILE_ENDING);
         return ImageIO.read(file);
     }
 
