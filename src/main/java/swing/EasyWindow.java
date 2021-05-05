@@ -150,25 +150,7 @@ public class EasyWindow extends JFrame {
 
 }
 
-class T extends java.lang.Thread {
 
-    public void run() {
-        try {
-            EasyWindow ew = new EasyWindow();
-            ew.moveWindow(ew, new MV());
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-}
 
 class MV {
     int x;

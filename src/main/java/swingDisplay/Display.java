@@ -8,7 +8,6 @@ public class Display {
 
     static ImageImporter im = new ImageImporter();
 
-
     public static Pixel[][] clear(Pixel[][] display) {
         for (int i = 0; i < display.length; i++) {
             for (int j = 0; j < display[0].length; j++) {

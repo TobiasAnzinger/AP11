@@ -21,22 +21,24 @@ public class BMI extends JFrame {
         calculateButton.setSize(1, 200);
         calculateButton.setPreferredSize(new Dimension(0, 100));
         System.out.println(calculateButton.getSize());
-        JLabel enterHightText = new JLabel("enter height in cm");
+        JLabel enterHeightText = new JLabel("enter height in cm");
         JLabel enterWeightText = new JLabel("enter weight in kg");
 
         panel.setLayout(new GridLayout(2, 2));
+        panel.add(enterWeightText, BorderLayout.CENTER);
         panel.add(weight);
+        panel.add(enterHeightText, BorderLayout.CENTER);
         panel.add(height);
 
 //        panel.add(copyText);
         con.add(panel, BorderLayout.CENTER);
         con.add(calculateButton, BorderLayout.SOUTH);
-        int bmi = calculateBMI();
 
         calculateButton.addActionListener((e) -> {
-            System.out.println(weight.getText());
-            Display.generate(Integer.toString(bmi));
-
+            int w = Integer.parseInt(weight.getText());
+            int h = Integer.parseInt(height.getText());
+            float bmi = calculateBMI(w, h);
+            Display.generate(Float.toString(bmi));
         });
 
         setSize(800, 400);
@@ -45,8 +47,9 @@ public class BMI extends JFrame {
         setVisible(true);
     }
 
-    private int calculateBMI() {
-        return 25;
+    private int calculateBMI(int weight, int height) {
+        float h = (float) height / 100;
+        return (int) (weight / (h * h));
     }
 
 
