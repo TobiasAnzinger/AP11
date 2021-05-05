@@ -1,60 +1,33 @@
 package swingDisplay;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.util.List;
-import java.io.IOException;
+
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
+
+
     public static void main(String[] args) {
+        countdownFrom(11);
+    }
 
-        ImageImporter im = new ImageImporter();
-
-
-        try {
-            List<List<Boolean>> image = im.getNumberArray(11);
-
-
-        DPSettings dpSettings = new DPSettings(image.size(), image.get(0).size());
-
-        Pixel[][] display = new Pixel[dpSettings.pixel_x][dpSettings.pixel_y];
-
-//        System.out.println(pixel1.toString());
-
-//        display[0][0] = new Pixel(new DPSettings(20,20), new Pos(0,0), true);
-
-//        int k = 0;
-//        for (int i = 0; i < display.length; i++) {
-//            for (int j = 0; j < display[0].length; j++) {
-//                display[i][j] = new Pixel(dpSettings, new Pos(i,j), k % 2 == 0);
-//                k++;
-//            }
-//            k++;
-//
-//        }
-
-        for (int i = 0; i < display.length; i++) {
-            for (int j = 0; j < display[0].length; j++) {
-                display[i][j] = new Pixel(dpSettings, new Pos(i,j), image.get(i).get(j));
-            }
+    private static void countdownFrom(int start) {
+        Pixel[][] display = Display.generate(" ");
+        for (int i = start; i >= 0; i--) {
+            display = Display.generate(Integer.toString(i), display);
+            waitSeconds(1);
+            assert display != null;
+            Display.clear(display);
 
         }
+    }
 
-        } catch (IOException e) {
+    private static void waitSeconds(int t) {
+        try {
+            TimeUnit.SECONDS.sleep(t);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-}
 
-class DPSettings {
-    int pixel_x;
-    int pixel_y;
-    Dimension screenSize;
-
-    public DPSettings(int pixel_x, int pixel_y) {
-        this.pixel_x = pixel_x;
-        this.pixel_y = pixel_y;
-        screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    }
 }

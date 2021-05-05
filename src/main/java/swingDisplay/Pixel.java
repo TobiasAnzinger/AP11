@@ -10,10 +10,12 @@ public class Pixel extends JFrame {
     int pos_x;
     int pos_y;
     boolean visible;
+    DPSettings dpSettings;
 
 
     public Pixel(DPSettings dpSettings, Pos pos, boolean visible) {
         super();
+        this.dpSettings = dpSettings;
         pixelWidth = dpSettings.screenSize.width / dpSettings.pixel_x;
         pixelHeight = dpSettings.screenSize.height / dpSettings.pixel_y;
         this.pos_x = pos.x * pixelWidth;
