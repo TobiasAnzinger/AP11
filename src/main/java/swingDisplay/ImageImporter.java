@@ -12,20 +12,25 @@ import java.util.List;
 public class ImageImporter {
 
     private static final String FILE_ENDING = ".png";
-    private static final String BASE_PATH = "Numbers/";
+    private static final String BASE_PATH = "Chars/";
 
     public List<List<Boolean>> getNumberArray(String value) throws IOException {
-
-        if(value.length() > 1){
-            List<List<List<Boolean>>> list = new ArrayList<List<List<Boolean>>>();
-            for (int j = 0; j < value.length(); j++) {
-                list.add(getPixelArrayForSingleChar(value.charAt(j)));
-            }
-            return combineNumberArrays(list);
+        if (value == null || value.length() == 0){
+            return null;
+        }else if(value.length() > 1){
+            return getPixelArrayForMultiChar(value);
         }
         else{
             return getPixelArrayForSingleChar(value.charAt(0));
         }
+    }
+
+    private List<List<Boolean>> getPixelArrayForMultiChar(String value) throws IOException {
+        List<List<List<Boolean>>> list = new ArrayList<List<List<Boolean>>>();
+        for (int j = 0; j < value.length(); j++) {
+            list.add(getPixelArrayForSingleChar(value.charAt(j)));
+        }
+        return combineNumberArrays(list);
     }
 
     private List<List<Boolean>> combineNumberArrays(List<List<List<Boolean>>> arrays){
@@ -49,8 +54,8 @@ public class ImageImporter {
     }
 
     private BufferedImage findImageByChar(char value) throws IOException {
-        value = Character.toUpperCase(value);
         String fileName = "";
+        value = Character.toUpperCase(value);
         if (value == ' ') {
             fileName = "SPACE";
         }else{
