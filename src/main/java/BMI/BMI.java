@@ -77,7 +77,6 @@ public class BMI extends JFrame {
 
     private float calculateBMI(int weight, int height) {
         float h = (float) height / 100;
-        System.out.println("height: " + h);
         return  weight / (h * h);
     }
 
