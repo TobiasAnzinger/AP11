@@ -56,10 +56,16 @@ public class ImageImporter {
     private BufferedImage findImageByChar(char value) throws IOException {
         String fileName = "";
         value = Character.toUpperCase(value);
-        if (value == ' ') {
-            fileName = "SPACE";
-        }else{
-            fileName = Character.toString(value);
+        switch (value){
+            case ' ':
+                fileName = "SPACE";
+                break;
+            case '.':
+                fileName = "DOT";
+                break;
+            default:
+                fileName = Character.toString(value);
+                break;
         }
         File file = new File(BASE_PATH + fileName + FILE_ENDING);
         return ImageIO.read(file);
