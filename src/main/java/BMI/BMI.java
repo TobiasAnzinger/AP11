@@ -6,6 +6,7 @@ import swingDisplay.Pixel;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 
 public class BMI extends JFrame {
     Pixel[][] display = Display.generate(" ");
@@ -52,21 +53,27 @@ public class BMI extends JFrame {
             System.out.println(bmi);
             showResult(bmi);
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(new JFrame(), "please enter valid numbers");
         }
     }
 
     private void showResult(float bmi) {
         String value = null;
-        if(bmi < 15) value = "Very severely underweight";
-        if(bmi >= 15) value = "Severely underweight";
-        if(bmi >= 16) value = "Underweight";
-        if(bmi >= 18.5) value = "Normal";
-        if(bmi >= 25) value = "Overweight";
-        if(bmi >= 30) value = "Obese Class I (Moderately obese)";
-        if(bmi >= 35) value = "Obese Class II (Severely obese)";
-        if(bmi >= 40) value = "Obese Class III (Very severely obese)";
-        JOptionPane.showMessageDialog(new JFrame(), value);
+        if (bmi < 15) value = "Very severely underweight";
+        if (bmi >= 15) value = "Severely underweight";
+        if (bmi >= 16) value = "Underweight";
+        if (bmi >= 18.5) value = "Normal";
+        if (bmi >= 25) value = "Overweight";
+        if (bmi >= 30) value = "Obese Class I (Moderately obese)";
+        if (bmi >= 35) value = "Obese Class II (Severely obese)";
+        if (bmi >= 40) {
+            value = "Obese Class III (Very severely obese)";
+            JOptionPane.showMessageDialog(new JFrame(), value);
+            display = Display.clear(display);
+            this.display = Display.generate("TOO  FAT");
+        } else JOptionPane.showMessageDialog(new JFrame(), value);
+
     }
 
     private void exit() throws InterruptedException {
@@ -77,7 +84,7 @@ public class BMI extends JFrame {
 
     private float calculateBMI(int weight, int height) {
         float h = (float) height / 100;
-        return  weight / (h * h);
+        return weight / (h * h);
     }
 
 }
