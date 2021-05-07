@@ -6,7 +6,6 @@ import swingDisplay.Pixel;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
 
 public class BMI extends JFrame {
     Pixel[][] display = Display.generate(" ");
@@ -73,7 +72,7 @@ public class BMI extends JFrame {
             display = Display.clear(display);
             this.display = Display.generate("TOO  FAT");
         } else JOptionPane.showMessageDialog(new JFrame(), value);
-
+        display = Display.clear(display);
     }
 
     private void exit() throws InterruptedException {
