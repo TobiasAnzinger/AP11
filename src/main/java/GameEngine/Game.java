@@ -17,7 +17,6 @@ public class Game extends Canvas implements Runnable {
     public static int width = 20;
     //    public static int height = width / 16 * 9;
     public static int height = width;
-    public static final float RENDER_RESOLUTION = 0.9F;
     public static final int scale = 50;
     public static Dir moveDir;
     private boolean running = false;

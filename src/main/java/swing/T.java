@@ -8,7 +8,7 @@ public class T extends java.lang.Thread {
 
     public void run() {
         try {
-            EasyWindow ew = new EasyWindow();
+            BouncyWindow ew = new BouncyWindow();
             ew.moveWindow(ew, new MV());
         } catch (LineUnavailableException e) {
             e.printStackTrace();

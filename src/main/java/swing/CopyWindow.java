@@ -1,14 +1,11 @@
 package swing;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-public class CopyWindow extends JFrame {
+public class CopyWindow extends JFrame implements KeyListener {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -41,6 +38,7 @@ public class CopyWindow extends JFrame {
 
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
         setVisible(true);
+        addKeyListener(this);
     }
 
     private void nothingToSeeHere() {
@@ -48,5 +46,22 @@ public class CopyWindow extends JFrame {
             Thread t = new T();
             t.start();
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println(e.getKeyCode());
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        System.out.println(e.getKeyCode());
+
     }
 }

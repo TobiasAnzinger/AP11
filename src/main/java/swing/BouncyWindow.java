@@ -3,27 +3,21 @@ package swing;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
-
 import static java.lang.Thread.sleep;
-import static swing.Main.clip;
 
-public class EasyWindow extends JFrame {
+public class BouncyWindow extends JFrame {
     int nr;
     Loc loc = new Loc();
     MV mv = new MV();
-//    MP mp = new MP();
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Clip clip;
 
-
-    public EasyWindow() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
+    public BouncyWindow() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
         super();
         init();
 
@@ -48,40 +42,6 @@ public class EasyWindow extends JFrame {
         clip.open(audioInputStream);
         FloatControl gainControll = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControll.setValue(-30.00f);
-//        JLabel label = new JLabel("asdasfda", JLabel.CENTER);
-//        final JButton red = new JButton("rot");
-//        final JButton yellow = new JButton("gelb");
-//        final JButton exit = new JButton("Ende");
-
-//        con.add(label, BorderLayout.CENTER);
-//        con.add(red, BorderLayout.WEST);
-//        con.add(yellow, BorderLayout.EAST);
-//        con.add(exit, BorderLayout.SOUTH);
-
-//        exit.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                try {
-//                    exit();
-//                } catch (InterruptedException interruptedException) {
-//                    interruptedException.printStackTrace();
-//                }
-//            }
-//        });
-//        red.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//            }
-//        });
-//
-//        yellow.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//            }
-//        });
-//
     }
 
     private void init() {
@@ -97,18 +57,17 @@ public class EasyWindow extends JFrame {
     }
 
     private void exit() throws InterruptedException {
+        try {
+            Main.main(null);
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
 //            System.exit(0);
-//            int x = getLocation().x;
-//            int y = getLocation().y;
-//            setLocation(x + (int) (Math.random() * 50), y + (int) (Math.random() * 50));
-//        Main.main(null);
     }
 
-    public void moveWindow(EasyWindow ew, MV mv) throws InterruptedException {
+    public void moveWindow(BouncyWindow ew, MV mv) throws InterruptedException {
         ew.mv = mv;
         while (true) {
-//            System.out.println(ew.loc);
-//            System.out.println(ew.mv);
             ew.detectHit(ew);
             ew.updateLoc(ew);
             ew.loc.x += ew.mv.x;
@@ -118,7 +77,7 @@ public class EasyWindow extends JFrame {
         }
     }
 
-    private void onHit(EasyWindow ew) {
+    private void onHit(BouncyWindow ew) {
         int r = ThreadLocalRandom.current().nextInt(0, 255);
         int g = ThreadLocalRandom.current().nextInt(0, 255);
         int b = ThreadLocalRandom.current().nextInt(0, 255);
@@ -126,7 +85,7 @@ public class EasyWindow extends JFrame {
         clip.start();
     }
 
-    private void detectHit(EasyWindow ew) {
+    private void detectHit(BouncyWindow ew) {
         if (ew.loc.x + ew.mv.x <= 0 || ew.loc.x + ew.mv.x >= screenSize.width - getWidth()) {
             ew.mv.x *= -1;
             onHit(ew);
@@ -143,14 +102,12 @@ public class EasyWindow extends JFrame {
         loc.y = getLocation().y;
     }
 
-    private void updateLoc(EasyWindow ew) {
+    private void updateLoc(BouncyWindow ew) {
         ew.loc.x = getLocation().x;
         ew.loc.y = getLocation().y;
     }
 
 }
-
-
 
 class MV {
     int x;

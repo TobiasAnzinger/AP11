@@ -8,7 +8,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        countdownFrom(11);
+        countdownFrom(9999);
     }
 
     private static void countdownFrom(int start) {
@@ -37,5 +37,4 @@ public class Main {
             e.printStackTrace();
         }
     }
-
 }

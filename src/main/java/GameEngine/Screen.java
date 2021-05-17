@@ -21,7 +21,6 @@ public class Screen {
         pixels2D = new int[width][height];
     }
 
-
     public void render() {
         renderFood(Game.foodPos, Constants.SNAKEHEAD_SIZE);
 
