@@ -53,15 +53,26 @@ class TodoList extends JFrame {
         add.addActionListener((e) -> {
             lm.addElement(textField.getText());
             textField.setText("");
+            SwingUtilities.invokeLater( new Runnable() {
+
+                public void run() {
+                    textField.requestFocus();
+                }
+            } );
         });
         remove.addActionListener((e) -> lm.removeElementAt(list.getSelectedIndex()));
         removeAll.addActionListener((e) -> lm.removeAllElements());
         exit.addActionListener((e) -> exit());
 
-        setSize(400, 400);
+        setSize(600, 400);
 //        center window
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
         setVisible(true);
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+               textField.requestFocus();
+            }
+        } );
     }
 
     private void exit() {
