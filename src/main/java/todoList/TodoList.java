@@ -22,19 +22,13 @@ class TodoList extends JFrame {
     public TodoList() {
         super();
         setTitle("TodoList");
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent e) {
-                exit();
-            }
-        });
 
         Container con = getContentPane();
         JPanel buttonPanel = new JPanel();
-        JButton add = new JButton("add");
-        JButton remove = new JButton("remove");
-        JButton removeAll = new JButton("remove all");
-        JButton exit = new JButton("exit");
+        JButton addButton = new JButton("add");
+        JButton removeButton = new JButton("remove");
+        JButton removeAllButton = new JButton("remove all");
+        JButton exitButton = new JButton("exit");
 
         lm = new DefaultListModel<>();
         list = new JList<>(lm);
@@ -45,34 +39,42 @@ class TodoList extends JFrame {
         con.add(textField, BorderLayout.NORTH);
         con.add(buttonPanel, BorderLayout.EAST);
         buttonPanel.setLayout(new GridLayout(4, 1));
-        buttonPanel.add(add);
-        buttonPanel.add(remove);
-        buttonPanel.add(removeAll);
-        buttonPanel.add(exit);
+        buttonPanel.add(addButton);
+        buttonPanel.add(removeButton);
+        buttonPanel.add(removeAllButton);
+        buttonPanel.add(exitButton);
 
-        add.addActionListener((e) -> {
+        addButton.addActionListener((e) -> {
             lm.addElement(textField.getText());
             textField.setText("");
-            SwingUtilities.invokeLater( new Runnable() {
-
-                public void run() {
-                    textField.requestFocus();
-                }
-            } );
+            setFocusToTextField();
         });
-        remove.addActionListener((e) -> lm.removeElementAt(list.getSelectedIndex()));
-        removeAll.addActionListener((e) -> lm.removeAllElements());
-        exit.addActionListener((e) -> exit());
+
+        removeButton.addActionListener((e) -> lm.removeElementAt(list.getSelectedIndex()));
+        removeAllButton.addActionListener((e) -> lm.removeAllElements());
+        exitButton.addActionListener((e) -> exit());
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(final WindowEvent e) {
+                exit();
+            }
+        });
+
 
         setSize(600, 400);
-//        center window
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
+
         setVisible(true);
-        SwingUtilities.invokeLater( new Runnable() {
+        setFocusToTextField();
+    }
+
+    private void setFocusToTextField() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-               textField.requestFocus();
+                textField.requestFocus();
             }
-        } );
+        });
     }
 
     private void exit() {
