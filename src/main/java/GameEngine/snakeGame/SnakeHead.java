@@ -1,12 +1,11 @@
 package GameEngine.snakeGame;
 
-import com.sun.javafx.scene.traversal.Direction;
 
 public class SnakeHead extends SnakePart{
 
-    Direction direction;
+    Dir direction;
 
-    public SnakeHead(Position pos, int radius, Direction direction) {
+    public SnakeHead(Position pos, int radius, Dir direction) {
         super(pos, radius);
     }
 

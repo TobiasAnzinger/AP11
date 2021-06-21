@@ -12,7 +12,7 @@ public class Main extends Thread {
 
 //        new EasyWindow2();
 //        new EasyWindow();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             Thread t = new T();
             t.start();
         }

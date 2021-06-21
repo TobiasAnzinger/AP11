@@ -8,6 +8,16 @@ import java.awt.event.WindowEvent;
 
 class TodoList extends JFrame {
 
+    public static int count = 0;
+
+
+    public static int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        TodoList.count = count;
+    }
 
     public static void main(String[] args) {
         new TodoList();
@@ -50,7 +60,12 @@ class TodoList extends JFrame {
             setFocusToTextField();
         });
 
-        removeButton.addActionListener((e) -> lm.removeElementAt(list.getSelectedIndex()));
+        removeButton.addActionListener((e) -> {
+            try {
+                lm.removeElementAt(list.getSelectedIndex());
+            } catch (IndexOutOfBoundsException i) {
+            }
+        });
         removeAllButton.addActionListener((e) -> lm.removeAllElements());
         exitButton.addActionListener((e) -> exit());
 
@@ -60,7 +75,6 @@ class TodoList extends JFrame {
                 exit();
             }
         });
-
 
         setSize(600, 400);
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
@@ -80,4 +94,18 @@ class TodoList extends JFrame {
     private void exit() {
         System.exit(0);
     }
+
+    public class Entry {
+
+        public String description;
+        public int count;
+
+        @Override
+        public String toString() {
+            return (description + "                                  ").substring(0, 40) + " " + count;
+        }
+    }
+
+
 }
+

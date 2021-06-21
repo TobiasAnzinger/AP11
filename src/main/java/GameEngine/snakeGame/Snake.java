@@ -2,7 +2,7 @@ package GameEngine.snakeGame;
 
 import GameEngine.Constants;
 import GameEngine.Game;
-import com.sun.javafx.scene.traversal.Direction;
+//import com.sun.javafx.scene.traversal.Direction;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class Snake {
     private boolean didGrow = false;
 
     public Snake(Position p) {
-        addPart(new SnakeHead(p, Constants.SNAKEHEAD_SIZE, Direction.UP));
+        addPart(new SnakeHead(p, Constants.SNAKEHEAD_SIZE, Dir.UP));
     }
 
     public ArrayList<SnakePart> getElements() {
