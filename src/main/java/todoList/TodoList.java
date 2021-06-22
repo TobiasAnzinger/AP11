@@ -31,16 +31,23 @@ class TodoList extends JFrame {
 
     public TodoList() {
         super();
+        DefaultListModel<String> lm1;
         setTitle("TodoList");
-
         Container con = getContentPane();
         JPanel buttonPanel = new JPanel();
         JButton addButton = new JButton("add");
         JButton removeButton = new JButton("remove");
         JButton removeAllButton = new JButton("remove all");
-        JButton exitButton = new JButton("exit");
+        JButton exitButton = new JButton("save & exit");
 
-        lm = new DefaultListModel<>();
+
+        try {
+            lm1 = IO.read();
+        } catch (Exception e) {
+            e.printStackTrace();
+            lm1 = new DefaultListModel<>();
+        }
+        lm = lm1;
         list = new JList<>(lm);
         final JScrollPane sp = new JScrollPane(list);
         con.add(sp, BorderLayout.CENTER);
@@ -64,10 +71,18 @@ class TodoList extends JFrame {
             try {
                 lm.removeElementAt(list.getSelectedIndex());
             } catch (IndexOutOfBoundsException i) {
+                i.printStackTrace();
             }
         });
+
         removeAllButton.addActionListener((e) -> lm.removeAllElements());
-        exitButton.addActionListener((e) -> exit());
+        exitButton.addActionListener((e) -> {
+                    if (!IO.save(list)) {
+                        JOptionPane.showMessageDialog(new JFrame(), "failed saving the list");
+                    }
+                    exit();
+                }
+        );
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -77,9 +92,13 @@ class TodoList extends JFrame {
         });
 
         setSize(600, 400);
-        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
+
+        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height -
+
+                getHeight()) / 2);
 
         setVisible(true);
+
         setFocusToTextField();
     }
 
