@@ -26,12 +26,16 @@ class TodoList extends JFrame {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     private final JTextField textField;
-    private final JList<String> list;
-    private final DefaultListModel<String> lm;
+    private final JList<Entry> list;
+    private final MyListModel<Entry> lm;
 
     public TodoList() {
         super();
-        DefaultListModel<String> lm1;
+
+//        MyListModel<String> mlm = new MyListModel<>();
+        MyListModel<Entry> mlm = new MyListModel<>();
+
+//        DefaultListModel<String> lm1;
         setTitle("TodoList");
         Container con = getContentPane();
         JPanel buttonPanel = new JPanel();
@@ -42,12 +46,12 @@ class TodoList extends JFrame {
 
 
         try {
-            lm1 = IO.read();
+            mlm = MyListModel.read();
         } catch (Exception e) {
             e.printStackTrace();
-            lm1 = new DefaultListModel<>();
+            mlm = new MyListModel<>();
         }
-        lm = lm1;
+        lm = mlm;
         list = new JList<>(lm);
         final JScrollPane sp = new JScrollPane(list);
         con.add(sp, BorderLayout.CENTER);
@@ -62,22 +66,23 @@ class TodoList extends JFrame {
         buttonPanel.add(exitButton);
 
         addButton.addActionListener((e) -> {
-            lm.addElement(textField.getText());
+            lm.add(new Entry(textField.getText(), 3));
             textField.setText("");
             setFocusToTextField();
         });
 
         removeButton.addActionListener((e) -> {
             try {
-                lm.removeElementAt(list.getSelectedIndex());
+                lm.remove(list.getSelectedIndex());
             } catch (IndexOutOfBoundsException i) {
                 i.printStackTrace();
             }
         });
 
-        removeAllButton.addActionListener((e) -> lm.removeAllElements());
+        removeAllButton.addActionListener((e) -> lm.clear());
         exitButton.addActionListener((e) -> {
-                    if (!IO.save(list)) {
+//                    if (!IO.save(list)) {
+                    if (!MyListModel.save(list)) {
                         JOptionPane.showMessageDialog(new JFrame(), "failed saving the list");
                     }
                     exit();
@@ -118,6 +123,28 @@ class TodoList extends JFrame {
 
         public String description;
         public int count;
+
+
+        public Entry(String description, int count) {
+            this.description = description;
+            this.count = count;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
 
         @Override
         public String toString() {
