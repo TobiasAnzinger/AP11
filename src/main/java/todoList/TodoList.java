@@ -46,7 +46,8 @@ class TodoList extends JFrame {
 
 
         try {
-            mlm = MyListModel.read();
+//            mlm = MyListModel.read();
+            mlm = new MyListModel<>();
         } catch (Exception e) {
             e.printStackTrace();
             mlm = new MyListModel<>();
@@ -82,7 +83,7 @@ class TodoList extends JFrame {
         removeAllButton.addActionListener((e) -> lm.clear());
         exitButton.addActionListener((e) -> {
 //                    if (!IO.save(list)) {
-                    if (!MyListModel.save(list)) {
+                    if (!MyListModel.save2(list)) {
                         JOptionPane.showMessageDialog(new JFrame(), "failed saving the list");
                     }
                     exit();
@@ -98,12 +99,8 @@ class TodoList extends JFrame {
 
         setSize(600, 400);
 
-        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height -
-
-                getHeight()) / 2);
-
+        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
         setVisible(true);
-
         setFocusToTextField();
     }
 
@@ -119,7 +116,7 @@ class TodoList extends JFrame {
         System.exit(0);
     }
 
-    public class Entry {
+    public static class Entry {
 
         public String description;
         public int count;
@@ -148,7 +145,8 @@ class TodoList extends JFrame {
 
         @Override
         public String toString() {
-            return (description + "                                  ").substring(0, 40) + " " + count;
+            return (description + "                                                                 ")
+                    .substring(0, 40) + " " + count;
         }
     }
 

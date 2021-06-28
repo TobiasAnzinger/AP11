@@ -5,7 +5,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import javax.swing.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
@@ -16,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class MyListModel<E> extends AbstractListModel<E> implements ListModel<E> {
+public class MyListModel<E> extends AbstractListModel<E> implements Collection<E> {
 
     private ArrayList<E> delegate = new ArrayList<>();
 
@@ -173,9 +176,35 @@ public class MyListModel<E> extends AbstractListModel<E> implements ListModel<E>
 
         obj.put("list", jsonArray);
 
+        return saveToFile(obj.toJSONString());
+
+    }
+
+    public static boolean save2(JList<TodoList.Entry> list) {
+
+        JSONObject obj = new JSONObject();
+        MyListModel<TodoList.Entry> myListModel = (MyListModel<TodoList.Entry>) list.getModel();
+//        List<TodoList.Entry> l = IntStream.range(0, myListModel.getSize()).mapToObj(myListModel::getElementAt)
+//                .collect(Collectors.toList());
+        try {
+        final JAXBContext context = JAXBContext.newInstance(XMLHandler.class);
+        final Marshaller m = context.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        m.marshal(myListModel, System.out);
+        m.marshal(myListModel, new File("/Users/tanzinger/BS/ap11/src/main/java/todoList/XMLHandler.xml"));
+        } catch (javax.xml.bind.JAXBException e){
+            e.printStackTrace();
+        }
+
+        return saveToFile(obj.toJSONString());
+
+    }
+
+
+    private static boolean saveToFile(String s) {
         try {
             FileWriter fw = new FileWriter(path);
-            fw.write(obj.toJSONString());
+            fw.write(s);
             fw.flush();
             fw.close();
             return true;
@@ -183,7 +212,6 @@ public class MyListModel<E> extends AbstractListModel<E> implements ListModel<E>
             e.printStackTrace();
             return false;
         }
-
     }
 
     public static MyListModel<TodoList.Entry> read() throws Exception {
