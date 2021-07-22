@@ -18,8 +18,6 @@ public class GameState {
     }
 
 
-    static BufferedImage currentLevel = null;
-
     public GameState() {
         ui = new UI();
     }

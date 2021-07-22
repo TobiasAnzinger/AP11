@@ -2,34 +2,33 @@ package Game2D;
 
 import GameEngine.Constants;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.File;
-import java.io.IOException;
+
+import static Game2D.Movement.movePlayer;
 
 
 public class GameCore extends Canvas implements Runnable {
 //    private static final long serialVersionUID = 1L;
 
 
-    //    public static int width = 1920;
-    public static int levelWidth = 100;
-    //    public static int height = width / 16 * 9;
-    public static int levelHeight = 100;
+    public static Dimension screenSize = new Dimension(100, 100);
+    public static Vector2D cameraOffset = new Vector2D(-screenSize.width / 2, -screenSize.height / 2);
+
     public static final int scale = 8;
+    public static Dimension windowSize = new Dimension(screenSize.width * scale, screenSize.height * scale);
 
 
-    public static double gravity = 9.81 * scale;
-    public static double movementSpeed = 70 * scale;
-    public static double jumpSpeed = 3 * scale;
+    public static double gravity = 9.81;
+    public static double movementSpeed = 60;
+    public static double jumpPower = 3;
     //  1.0 is zero drag rise if you want to add drag
     public static double horizontalDrag = 1.0;
     public static double verticalDrag = 1.0;
 
-    public static int targetFPS = 120;
-    public static int targetUpdates = 60;
+    public static int targetFPS = 60;
+    public static int targetUpdates = 20;
     public static double fpsNormalisation = 1.1;
 
     private Thread thread;
@@ -40,31 +39,17 @@ public class GameCore extends Canvas implements Runnable {
 
     public static Player player;
     public static Camera camera;
+    public static Level level;
     public static GameState gameState;
     public static GameCore game;
 
+    private Vector2D playerRenderPosition;
 
     public GameCore() {
         super();
-        Dimension size = new Dimension(levelWidth * scale, levelHeight * scale);
-        setPreferredSize(size);
+        setPreferredSize(windowSize);
         frame = new GameFrame();
 
-    }
-
-    public synchronized void start() {
-        running = true;
-        thread = new Thread(this, Constants.GAME_Title);
-        thread.start();
-    }
-
-    public synchronized void stop() {
-        running = false;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {
@@ -80,6 +65,29 @@ public class GameCore extends Canvas implements Runnable {
         game.frame.setVisible(true);
 //        game.frame.addKeyListener(new Game2D.InputHandler());
         game.start();
+    }
+
+    private void init() {
+        gameState = new GameState();
+        level = new Level("src/main/java/Game2D/assets/yeeeeeeeeeeeee.png");
+
+        camera = new Camera(cameraOffset);
+        player = new Player(new Vector2D(0, 0), "Player", new Vector2D(4, 8));
+    }
+
+    public synchronized void start() {
+        running = true;
+        thread = new Thread(this, Constants.GAME_Title);
+        thread.start();
+    }
+
+    public synchronized void stop() {
+        running = false;
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,25 +145,18 @@ public class GameCore extends Canvas implements Runnable {
     }
 
     private void update(double diff) {
-
         player.updateEntity();
-        Movement.movePlayer();
-
-        Vector2D cameraMovementV2D = Vector2D.findR(player.getPosition(), camera.getCameraPosition()).normalize();
-        System.out.println(cameraMovementV2D);
-        camera.moveCamera(cameraMovementV2D);
+        movePlayer();
+        camera.updateCameraPosition(player);
+        calculatePlayerPositionOnScreen();
 
 //        do ~ every game tick
-//        if (diff > 0.9x9) {
+//        if (diff > 0.99) {
 //        do something every Game tick
 //        }
 
     }
 
-    public static void gameOver() {
-        JOptionPane.showMessageDialog(new JFrame(), "GAME OVER!");
-        System.out.println("game Over");
-    }
 
     private void render() {
 //        TODO render in second thread
@@ -168,17 +169,24 @@ public class GameCore extends Canvas implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
 
 //        render background
-//        g2d.drawImage(GameState.currentLevel, 0, 0, width * scale, height * scale, null);
-        g2d.drawImage(GameState.currentLevel, 0, 0, levelWidth * scale, levelHeight * scale, 0, 0, 100, 100, null);
-//        g2d.drawImage(GameState.currentLevel, 0, 0, null);
+
+        g2d.drawImage(level.image, 0, 0,
+                windowSize.width,
+                windowSize.height,
+                (int) camera.getFinalCameraRenderPosition().x,
+                (int) camera.getFinalCameraRenderPosition().y,
+                (int) camera.getFinalCameraRenderPosition().x + screenSize.width,
+                (int) camera.getFinalCameraRenderPosition().y + screenSize.height, null);
+
 
 //        render player
-        g2d.drawImage(player.entity, (int) player.getPosition().x, (int) player.getPosition().y, null);
+//        g2d.drawImage(player.entity, (int) player.getPosition().x * scale, (int) player.getPosition().y * scale, null);
+        g2d.drawImage(player.entity, (int) playerRenderPosition.x * scale, (int) playerRenderPosition.y * scale, null);
 
 //        render UI
 
 //        render camera viewpoint
-        g2d.fillOval((int) camera.getCameraPosition().x, (int) camera.cameraPosition.y, 10, 10);
+//        g2d.fillOval((int) camera.getCameraPosition().x, (int) camera.getCameraPosition().y, 10, 10);
 
 //        render fps counter
         g2d.setColor(Color.BLACK);
@@ -187,20 +195,45 @@ public class GameCore extends Canvas implements Runnable {
         bs.show();
     }
 
-    private void loadAssets() {
-        try {
-//            GameState.currentLevel = ImageIO.read(new File("src/main/java/Game/assets/yeetus.png"));
-            GameState.currentLevel = ImageIO.read(new File("src/main/java/Game2D/assets/yeeeeeeeeeeeee.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void calculatePlayerPositionOnScreen() {
+        Vector2D playerOnScreen = player.getPosition();
+
+//      TODO fix teleportation bug which occurs when moving right to the right edge of the level and the screen width
+//          is smaller than the level width
+
+//        if (camera.getFinalCameraRenderPosition().x <= - cameraOffset.x) {
+//            playerOnScreen.x = player.getPosition().x;
+        if (camera.getFinalCameraRenderPosition().x > -cameraOffset.x && camera.getFinalCameraRenderPosition().x < level.width + cameraOffset.x) {
+            playerOnScreen.x = -cameraOffset.x;
+            level.setMovingX(true);
+        } else if (camera.getFinalCameraRenderPosition().x > level.width + screenSize.width) {
+//            todo fix
+            playerOnScreen.x = player.getPosition().x - level.width + (screenSize.width - player.size.x);
+//            playerOnScreen.x = player.getPosition().x - level.width + screenSize.width;
         }
+
+        if (camera.getFinalCameraRenderPosition().y >= level.height - screenSize.height) {
+//            playerOnScreen.y = player.getPosition().y;
+            System.out.println("b");
+        } else if (camera.getFinalCameraRenderPosition().y < screenSize.height) {
+            playerOnScreen.y = player.getPosition().y;
+            System.out.println();
+            System.out.println("a");
+        } else {
+            System.out.println("c");
+            playerOnScreen.y = -cameraOffset.y;
+            level.setMovingY(true);
+        }
+
+
+        playerRenderPosition = playerOnScreen;
+        System.out.println("pp: " + player.getPosition());
+        System.out.println("prp: " + playerRenderPosition);
     }
 
-    private void init() {
-        gameState = new GameState();
-        loadAssets();
-        camera = new Camera();
-        player = new Player(new Vector2D(45 * scale, 0), "Player", new Vector2D(4, 8));
+    public static void gameOver() {
+        JOptionPane.showMessageDialog(new JFrame(), "GAME OVER!");
+        System.out.println("game Over");
     }
 
 

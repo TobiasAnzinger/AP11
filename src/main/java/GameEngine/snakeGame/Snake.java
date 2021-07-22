@@ -1,7 +1,6 @@
 package GameEngine.snakeGame;
 
 import GameEngine.Constants;
-import GameEngine.Game;
 //import com.sun.javafx.scene.traversal.Direction;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class Snake {
             int headPosY = elements.get(0).getPos().getY();
             if(elements.get(0) != snakePart){
                 if(snakePart.getPos().getX() == headPosX && snakePart.getPos().getY() == headPosY){
-                    Game.gameOver();
+                    GameEngine.Snake.gameOver();
                 }
             }
         });

@@ -6,9 +6,15 @@ import static Game2D.GameFrame.*;
 
 public class Movement {
 
-    public static int bottomOfScreen = (int) ((levelHeight - player.size.y) * scale);
-    public static int rightWall = (int) ((levelWidth - player.size.x) * scale);
+//    public static int bottomOfScreen = (int) ((screenSize.height - player.size.y) * scale);
+    public static int bottomOfScreen = (int) (level.height - player.size.y);
+//    public static int rightWall = (int) ((screenSize.width - player.size.x) * scale);
+    public static int rightWall = (int) (level.width - player.size.x);
 
+
+//    TODO fix jump / gravity. Its not uniformly with different update rates
+
+//    TODO fix the coordinate system. Its still bound to the screen and not the map
 
     public static void movePlayer() {
         player.velocity.x = 0;
@@ -25,7 +31,7 @@ public class Movement {
 //        move right
         if (keyPressed_D) {
             player.setVelocity(new Vector2D((movementSpeed), player.getVelocity().y));
-//            System.out.println("move right " + player.velocity.toString());
+//            System.out.println("moving right " + player.velocity.toString());
         }
 
 //        move left
@@ -41,7 +47,7 @@ public class Movement {
 
 //        jump
         if (keyPressed_SPACE && player.grounded) {
-            player.setVelocity(new Vector2D(player.getVelocity().x, -jumpSpeed));
+            player.setVelocity(new Vector2D(player.getVelocity().x, -jumpPower));
         }
 
 //        move if still on screen after movement

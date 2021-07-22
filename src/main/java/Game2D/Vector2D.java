@@ -44,6 +44,10 @@ public class Vector2D {
         return new Vector2D(a.x - b.x, a.y - b.y);
     }
 
+    public Vector2D add(Vector2D v2d){
+        return new Vector2D(x + v2d.x, y + v2d.y);
+    }
+
     @Override
     public String toString() {
         return "Vector2D{" +

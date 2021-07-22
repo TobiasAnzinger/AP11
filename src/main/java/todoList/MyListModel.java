@@ -162,42 +162,25 @@ public class MyListModel<E> extends AbstractListModel<E> implements Collection<E
         return delegate.parallelStream();
     }
 
-
     static final String path = "src/main/java/todoList/savefile.json";
+    static final String xmlPath = "src/main/java/todoList/XMLHandler.xml";
 
-    public static boolean save(JList<TodoList.Entry> list) {
-
-        JSONObject obj = new JSONObject();
-        MyListModel<TodoList.Entry> myListModel = (MyListModel<TodoList.Entry>) list.getModel();
-        JSONArray jsonArray = new JSONArray();
-        List<TodoList.Entry> l = IntStream.range(0, myListModel.getSize()).mapToObj(myListModel::getElementAt)
-                .collect(Collectors.toList());
-        jsonArray.addAll(l);
-
-        obj.put("list", jsonArray);
-
-        return saveToFile(obj.toJSONString());
-
-    }
 
     public static boolean save2(JList<TodoList.Entry> list) {
-
         JSONObject obj = new JSONObject();
         MyListModel<TodoList.Entry> myListModel = (MyListModel<TodoList.Entry>) list.getModel();
-//        List<TodoList.Entry> l = IntStream.range(0, myListModel.getSize()).mapToObj(myListModel::getElementAt)
-//                .collect(Collectors.toList());
+        List<TodoList.Entry> l = IntStream.range(0, myListModel.getSize()).mapToObj(myListModel::getElementAt)
+                .collect(Collectors.toList());
         try {
-        final JAXBContext context = JAXBContext.newInstance(XMLHandler.class);
-        final Marshaller m = context.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.marshal(myListModel, System.out);
-        m.marshal(myListModel, new File("/Users/tanzinger/BS/ap11/src/main/java/todoList/XMLHandler.xml"));
-        } catch (javax.xml.bind.JAXBException e){
+            final JAXBContext context = JAXBContext.newInstance(XMLHandler.class);
+            final Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(myListModel, System.out);
+            m.marshal(myListModel, new File(xmlPath));
+        } catch (javax.xml.bind.JAXBException e) {
             e.printStackTrace();
         }
-
         return saveToFile(obj.toJSONString());
-
     }
 
 

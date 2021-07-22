@@ -1,7 +1,6 @@
 package GameEngine;
 
 import GameEngine.snakeGame.Position;
-import GameEngine.snakeGame.Snake;
 
 import java.util.Arrays;
 
@@ -11,7 +10,7 @@ public class Screen {
     private final int height;
     public int[] pixels;
     public int[][] pixels2D;
-    public Snake snake = new Snake(new Position(Game.width / 2, Game.height / 2));
+    public GameEngine.snakeGame.Snake snake = new GameEngine.snakeGame.Snake(new Position(Snake.width / 2, Snake.height / 2));
 
 
     public Screen(int width, int height) {
@@ -22,7 +21,7 @@ public class Screen {
     }
 
     public void render() {
-        renderFood(Game.foodPos, Constants.SNAKEHEAD_SIZE);
+        renderFood(Snake.foodPos, Constants.SNAKEHEAD_SIZE);
 
         snake.getElements().forEach(part -> {
             int x = part.getPos().getX();

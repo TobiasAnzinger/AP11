@@ -10,7 +10,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-public class Game extends Canvas implements Runnable {
+public class Snake extends Canvas implements Runnable {
 //    private static final long serialVersionUID = 1L;
 
     //    public static int width = 1920;
@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable {
     private int updates = 0;
     public static Position foodPos;
 
-    public Game() {
+    public Snake() {
 //        Dimension size = new Dimension(width * scale, height * scale);
         Dimension size = new Dimension(width * scale, height * scale);
         setPreferredSize(size);
@@ -66,11 +66,8 @@ public class Game extends Canvas implements Runnable {
         long timer = System.currentTimeMillis();
         final double nanoseconds = 1000000000.0 / Constants.GAME_UPDATES;
         double diff = 0;
-
         int fps = 0;
         long now;
-
-
         int updates = 0;
 
         while (running) {
@@ -112,10 +109,10 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void setNewFood() {
-        Game.foodPos = new Position((int) (Math.random() * width), (int) (Math.random() * height) );
+        Snake.foodPos = new Position((int) (Math.random() * width), (int) (Math.random() * height) );
         screen.snake.getElements().forEach(snakePart -> {
-            while (snakePart.getPos().getX() == Game.foodPos.getX() && snakePart.getPos().getY() == Game.foodPos.getY()) {
-                Game.foodPos = new Position((int) (Math.random() * width * Constants.SNAKEHEAD_SIZE), (int) (Math.random() * height));
+            while (snakePart.getPos().getX() == Snake.foodPos.getX() && snakePart.getPos().getY() == Snake.foodPos.getY()) {
+                Snake.foodPos = new Position((int) (Math.random() * width * Constants.SNAKEHEAD_SIZE), (int) (Math.random() * height));
             }
         });
     }
@@ -180,13 +177,14 @@ public class Game extends Canvas implements Runnable {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 //        g.setColor(Color.BLACK);
 //        g.drawRect(0,0,getWidth(),getHeight());
+        g.setColor(Color.WHITE);
         g.drawString("FPS: " + fps + "      UPDATES: " + updates, 5, 15);
         g.dispose();
         bs.show();
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        Snake game = new Snake();
         game.frame.setResizable(false);
         game.frame.setTitle(Constants.GAME_Title);
         game.frame.add(game);

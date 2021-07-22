@@ -24,16 +24,16 @@ public class InputHandler implements KeyListener {
 
                 break;
             case (KeyEvent.VK_W):
-                Game.moveDir = Dir.UP;
+                Snake.moveDir = Dir.UP;
                 break;
             case (KeyEvent.VK_A):
-                Game.moveDir = Dir.LEFT;
+                Snake.moveDir = Dir.LEFT;
                 break;
             case (KeyEvent.VK_S):
-                Game.moveDir = Dir.DOWN;
+                Snake.moveDir = Dir.DOWN;
                 break;
             case (KeyEvent.VK_D):
-                Game.moveDir = Dir.RIGHT;
+                Snake.moveDir = Dir.RIGHT;
                 break;
         }
     }
